@@ -18,7 +18,7 @@ var shell = require('shelljs'),
  * https://github.com/gruntjs/grunt/wiki/grunt.template
  */
 var commandTemplates = {
-  mysqldump: "mysqldump --hex-blob -h <%= host %> -P <%= port %> -u<%= user %> <%= pass %> <%= database %> <%=extra_args%>",
+  mysqldump: "MYSQL_PWD=<%= pass %> mysqldump --hex-blob -h <%= host %> -P <%= port %> -u<%= user %> <%= database %> <%=extra_args%>",
   ssh: "ssh <%= host %>"
 };
 
@@ -78,7 +78,7 @@ module.exports = function (grunt) {
     var tpl_mysqldump = grunt.template.process(commandTemplates.mysqldump, {
       data: {
         user: options.user,
-        pass: options.pass !== "" ? '--password="' + options.pass + '"' : '',
+        pass: options.pass,
         database: options.database,
         host: options.host,
         port: options.port,
