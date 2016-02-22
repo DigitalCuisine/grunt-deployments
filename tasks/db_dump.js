@@ -18,7 +18,7 @@ var shell = require('shelljs'),
  * https://github.com/gruntjs/grunt/wiki/grunt.template
  */
 var commandTemplates = {
-  mysqldump: "MYSQL_PWD=<%= pass %> mysqldump --hex-blob -h <%= host %> -P <%= port %> -u<%= user %> <%= database %> -r <%= target %> <%=extra_args%>",
+  mysqldump: "MYSQL_PWD='<%= pass %>' mysqldump --hex-blob -h <%= host %> -P <%= port %> -u<%= user %> <%= database %> -r <%= target %> <%=extra_args%>",
   ssh: "ssh <%= host %>"
 };
 
