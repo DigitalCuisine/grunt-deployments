@@ -34,8 +34,8 @@ module.exports = function(grunt) {
     db_dump: {
 	    // This one should work
         mysql: '<%= db_fixture.mysql %>',
-	    // This one should fail 
-        info_schema: '<%= db_fixture.info_schema %>'	    
+	    // This one should fail
+        info_schema: '<%= db_fixture.info_schema %>'
     },
 
     // Unit tests.
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'deployments', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'db_dump', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

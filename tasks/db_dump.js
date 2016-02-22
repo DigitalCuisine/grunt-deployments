@@ -18,7 +18,7 @@ var shell = require('shelljs'),
  * https://github.com/gruntjs/grunt/wiki/grunt.template
  */
 var commandTemplates = {
-  mysqldump: "MYSQL_PWD=<%= pass %> mysqldump --hex-blob -h <%= host %> -P <%= port %> -u<%= user %> <%= database %> <%=extra_args%>",
+  mysqldump: "MYSQL_PWD=<%= pass %> mysqldump --hex-blob -h <%= host %> -P <%= port %> -u<%= user %> <%= database %> -r <%= target %> <%=extra_args%>",
   ssh: "ssh <%= host %>"
 };
 
@@ -82,6 +82,7 @@ module.exports = function (grunt) {
         database: options.database,
         host: options.host,
         port: options.port,
+        target: paths.file,
         extra_args: options.extra_args
       }
     });
@@ -101,18 +102,15 @@ module.exports = function (grunt) {
       cmd = tpl_ssh + " \\ " + tpl_mysqldump;
     }
 
-    // Capture output...
+    // Execute command...
     var ret = shell.exec(cmd, {
       silent: true
     });
 
     if (ret.code != 0) {
-      grunt.log.error(ret.output)
+      grunt.log.error(ret.stdout + ret.stderr)
       return false;
     }
-
-    // Write output to file using native Grunt methods
-    grunt.file.write(paths.file, ret.output);
 
     return true;
   }
